@@ -1,1 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rethoy Islam — Ads & Tracking Specialist</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%230a0a0a'/%3E%3Ctext x='32' y='32' text-anchor='middle' dominant-baseline='central' font-family='Archivo, Arial, sans-serif' font-weight='900' font-size='24' fill='%23ffffff'%3ERI%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#ffffff;
+    --black:#0a0a0a;
+    --gray-100:#f4f4f4;
+    --gray-200:#e6e6e6;
+    --gray-400:#a3a3a3;
+    --gray-600:#6b6b6b;
+    --gray-800:#1c1c1c;
+    --font-display:'Archivo', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+    --ease: cubic-bezier(.22,.61,.36,1);
+    --dropdown-hover: rgba(255,255,255,.1);
+  }
+  body.dark-mode{
+    --dropdown-hover: rgba(0,0,0,.08);
+  }
 
+  /* ============ DARK MODE ============ */
+  /* Flips the whole palette when <body> gets the .dark-mode class. */
+  body.dark-mode{
+    --white:#0a0a0a;
+    --black:#f5f5f5;
+    --gray-100:#161616;
+    --gray-200:#2a2a2a;
+    --gray-400:#7a7a7a;
+    --gray-600:#a8a8a8;
+    --gray-800:#e6e6e6;
+  }
+  /* Contact CTA band is an intentionally always-dark surface — relock its
+     local vars so badge/border text stays legible in dark mode. */
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--white);
+    color:var(--black);
+    font-family:var(--font-body);
+    overflow-x:hidden;
+    transition:background-color .45s var(--ease), color .45s var(--ease);
+  }
+  ::selection{background:var(--black);color:var(--white);}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  img{display:block;max-width:100%;}
+
+  /* ============ LOADER ============ */
+  #loader{
+    position:fixed;inset:0;
+    background:var(--black);
+    z-index:9999;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .9s var(--ease), opacity .7s ease;
+  }
+  #loader.done{
+    transform:translateY(-100%);
+  }
+  .loader-inner{
+    overflow:hidden;
+    text-align:center;
+  }
+  .loader-name{
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:clamp(1.6rem,7.5vw,4.5rem);
+    color:var(--white);
+    letter-spacing:.02em;
+    white-space:nowrap;
+  }
+  .loader-name span{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(40px);
+    animation:letterUp .6s cubic-bezier(.25,.46,.45,.94) forwards;
+  }
+  @keyframes letterUp{to{opacity:1;transform:translateY(0);}}
+  .loader-track{
+    margin-top:22px;
+    width:0;
+    height:2px;
+    background:rgba(255,255,255,.18);
+    position:relative;
+    overflow:hidden;
+  }
+  .loader-bar{
+    position:absolute;left:0;top:0;bottom:0;
+    width:0%;
+    background:var(--white);
+    animation:loadBar 1.7s var(--ease) .35s forwards;
+  }
+  @keyframes loadBar{to{width:100%;}}
+  .loader-tag{
+    margin-top:14px;
+    font-family:var(--font-mono);
+    font-size:.68rem;
+    letter-spacing:.28em;
+    color:var(--gray-400);
+    text-transform:uppercase;
+    opacity:0;
+    animation:fadeIn .6s ease .9s forwards;
+  }
+  @keyframes fadeIn{to{opacity:1;}}
+
+  /* ============ HEADER ============ */
+  header{
+    position:fixed;top:0;left:0;right:0;
+    z-index:500;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px clamp(20px,5vw,56px);
+    background:rgba(255,255,255,.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--gray-200);
+    transition:background-color .45s var(--ease), border-color .45s var(--ease);
+  }
+  body.dark-mode header{
+    background:rgba(10,10,10,.85);
+  }
+  .header-mark{
+    width:38px;height:38px;
+    border-radius:50%;
+    background:var(--black);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:.78rem;
+    letter-spacing:.02em;
+    color:var(--white);
+    padding:0;
+    cursor:pointer;
+    transition:background-color .45s var(--ease), color .45s var(--ease), transform .25s var(--ease);
+  }
+  .header-mark:hover{
+    transform:scale(1.08) rotate(-6deg);
+  }
+  .header-mark:active{
+    transform:scale(.94);
+  }
+
+  .status-pill{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    border:1px solid var(--gray-200);
+    padding:7px 14px;
+    border-radius:999px;
+  }
+  .status-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 0 0 rgba(34,197,94,.5);
+    animation:pulseDot 1.8s ease-in-out infinite;
+  }
+  @keyframes pulseDot{
+    0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.45);}
+    50%{opacity:.4;box-shadow:0 0 0 5px rgba(34,197,94,0);}
+  }
+  nav.main-nav{
+    display:flex;gap:38px;
+    font-size:.92rem;font-weight:500;
+  }
+  nav.main-nav a{
+    position:relative;
+    padding-bottom:4px;
+  }
+  nav.main-nav a::after{
+    content:'';position:absolute;left:0;right:100%;bottom:0;height:1px;
+    background:var(--black);
+    transition:right .3s var(--ease);
+  }
+  nav.main-nav a:hover::after{right:0;}
+
+  .contact-wrap{position:relative;}
+  .btn-black{
+    background:var(--black);
+    color:var(--white);
+    padding:11px 22px;
+    font-size:.88rem;font-weight:600;
+    border-radius:999px;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .btn-black:hover{opacity:.85;}
+  .btn-black svg{width:11px;height:11px;transition:transform .3s var(--ease);}
+  .contact-wrap.open .btn-black svg{transform:rotate(180deg);}
+
+  .contact-dropdown{
+    position:absolute;top:calc(100% + 12px);right:0;
+    background:var(--black);
+    border-radius:14px;
+    min-width:190px;
+    padding:8px;
+    opacity:0;visibility:hidden;
+    transform:translateY(-8px);
+    transition:opacity .25s var(--ease), transform .25s var(--ease), visibility .25s;
+  }
+  .contact-wrap.open .contact-dropdown{opacity:1;visibility:visible;transform:translateY(0);}
+  .contact-dropdown a{
+    display:flex;align-items:center;gap:10px;
+    color:var(--white);
+    font-size:.85rem;font-weight:500;
+    padding:10px 12px;border-radius:8px;
+    transition:background .2s ease;
+  }
+  .contact-dropdown a:hover{background:var(--dropdown-hover);}
+  .contact-dropdown svg{width:19px;height:19px;flex-shrink:0;border-radius:5px;}
+
+  .nav-toggle{display:none;width:26px;height:18px;position:relative;}
+  .nav-toggle span{position:absolute;left:0;right:0;height:2px;background:var(--black);transition:.3s;}
+  .nav-toggle span:nth-child(1){top:0;}
+  .nav-toggle span:nth-child(2){top:8px;}
+  .nav-toggle span:nth-child(3){top:16px;}
+
+  /* ============ SECTIONS SHARED ============ */
+  section{padding:150px clamp(20px,5vw,56px) 90px;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--gray-600);
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:20px;
+  }
+  .eyebrow::before{content:'';width:26px;height:1px;background:var(--black);}
+  h2.section-title{
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:clamp(2rem,4.2vw,3.4rem);
+    line-height:1.05;
+    letter-spacing:-.01em;
+  }
+
+  /* ============ HERO ============ */
+  #home{
+    min-height:100vh;
+    display:flex;align-items:center;
+    padding-top:120px;
+  }
+  .hero-grid{
+    width:100%;
+    display:grid;
+    grid-template-columns:1.1fr auto;
+    gap:60px;
+    align-items:center;
+  }
+  .hero-status{
+    margin-bottom:24px;
+  }
+  h1.hero-title{
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:clamp(3rem,7.5vw,6.2rem);
+    line-height:.98;
+    letter-spacing:-.02em;
+  }
+  h1.hero-title .rule{
+    display:block;
+    color:var(--black);
+  }
+  .hero-role{
+    margin-top:26px;
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:1rem;
+    letter-spacing:.04em;
+    color:var(--gray-800);
+    border-left:2px solid var(--black);
+    padding-left:14px;
+    min-height:1.3em;
+  }
+  .hero-role .type-cursor{
+    display:inline-block;
+    margin-left:2px;
+    animation:blinkCursor .8s step-end infinite;
+  }
+  @keyframes blinkCursor{50%{opacity:0;}}
+  .hero-desc{
+    margin-top:22px;
+    max-width:460px;
+    color:var(--gray-600);
+    font-size:1.02rem;
+    line-height:1.65;
+  }
+  .hero-cta{
+    margin-top:38px;
+    display:flex;gap:14px;flex-wrap:wrap;
+  }
+  .btn-outline{
+    border:1.5px solid var(--black);
+    padding:11px 24px;
+    border-radius:999px;
+    font-size:.88rem;font-weight:600;
+    transition:background .25s ease,color .25s ease;
+  }
+  .btn-outline:hover{background:var(--black);color:var(--white);}
+
+  /* portrait */
+  .portrait-wrap{
+    position:relative;
+    width:min(400px,40vw);
+    aspect-ratio:1/1;
+    display:flex;align-items:center;justify-content:center;
+    justify-self:center;
+  }
+  .ring-rotate{
+    position:absolute;inset:0;
+    border-radius:50%;
+    background:var(--black);
+    box-shadow:0 30px 70px -25px rgba(0,0,0,.4);
+  }
+  /* Static inner slot.
+     Drop a real photo in here (see the HTML comment near .portrait-photo)
+     and it will auto-crop to fill this circle perfectly. */
+  .portrait-photo{
+    position:absolute;
+    inset:4%;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 32% 28%, #3a3a3a 0%, #0a0a0a 55%, #000 100%);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    border:5px solid var(--white);
+    box-shadow:0 20px 50px -20px rgba(0,0,0,.5);
+  }
+  .portrait-photo img{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+    object-position:center;
+    border-radius:50%;
+  }
+  .portrait-photo span{
+    position:relative;
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:clamp(2.4rem,6vw,3.4rem);
+    color:#ffffff;
+    letter-spacing:-.02em;
+  }
+  .portrait-dot{
+    position:absolute;
+    bottom:5%;right:5%;
+    width:16px;height:16px;
+    border-radius:50%;
+    background:#22c55e;
+    border:3px solid var(--white);
+    z-index:3;
+  }
+
+  /* ============ ABOUT ============ */
+  #about{background:var(--gray-100);transition:background-color .45s var(--ease);}
+  .text-normal{font-weight:400;}
+  .about-grid{
+    display:grid;
+    grid-template-columns:.9fr 1.1fr;
+    gap:70px;
+    margin-top:44px;
+    align-items:start;
+  }
+  .about-text p{
+    color:var(--gray-600);
+    font-size:1.02rem;
+    line-height:1.8;
+    margin-bottom:18px;
+  }
+  .about-text strong{color:var(--black);}
+  .about-bullets{list-style:none;}
+  .about-bullets li{
+    position:relative;
+    padding-left:26px;
+    color:var(--gray-600);
+    font-size:1.02rem;
+    line-height:1.7;
+    margin-bottom:16px;
+  }
+  .about-bullets li::before{
+    content:'';
+    position:absolute;left:2px;top:.62em;
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--black);
+  }
+  .about-bullets strong{color:var(--black);}
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1px;
+    background:var(--gray-200);
+    border:1px solid var(--gray-200);
+  }
+  .stat{
+    background:var(--white);
+    padding:30px 26px;
+    transition:background-color .45s var(--ease);
+  }
+  .stat-num{
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:2.4rem;
+  }
+  .stat-label{
+    margin-top:6px;
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--gray-600);
+  }
+
+  /* ============ SERVICES (accordion) ============ */
+  .service-list{margin-top:50px;border-top:1px solid var(--gray-200);transition:border-color .45s var(--ease);}
+  .service-item{border-bottom:1px solid var(--gray-200);transition:border-color .45s var(--ease);}
+  .service-header{
+    display:flex;align-items:center;gap:26px;
+    width:100%;
+    padding:30px 4px;
+    cursor:pointer;
+    background:none;
+    text-align:left;
+    transition:background .35s ease;
+  }
+  .service-header:hover{background:var(--gray-100);}
+  .service-index{
+    font-family:var(--font-mono);
+    font-size:.82rem;
+    color:var(--gray-400);
+    width:34px;flex-shrink:0;
+  }
+  .service-title{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:clamp(1.15rem,2.4vw,1.5rem);
+    flex:1;
+  }
+  .service-icon{
+    width:36px;height:36px;flex-shrink:0;
+    border-radius:50%;
+    border:1px solid var(--gray-200);
+    display:flex;align-items:center;justify-content:center;
+    transition:background .4s var(--ease), border-color .4s var(--ease);
+  }
+  .service-icon svg{
+    width:13px;height:13px;
+    transition:transform .5s var(--ease);
+  }
+  .service-icon svg path{stroke:var(--black);transition:stroke .4s ease;}
+  .service-item.open .service-icon{background:var(--black);border-color:var(--black);}
+  .service-item.open .service-icon svg{transform:rotate(180deg);}
+  .service-item.open .service-icon svg path{stroke:var(--white);}
+
+  /* Smooth height reveal via grid-template-rows 0fr -> 1fr (no JS height math, no jank) */
+  .service-panel{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .6s var(--ease);
+  }
+  .service-item.open .service-panel{grid-template-rows:1fr;}
+  .service-panel-inner{overflow:hidden;}
+  .service-content{
+    padding:0 4px 34px 60px;
+    max-width:560px;
+  }
+  .service-bullets{list-style:none;}
+  .service-bullets li{
+    position:relative;
+    padding-left:22px;
+    font-size:.95rem;
+    color:var(--gray-600);
+    line-height:1.7;
+    margin-bottom:8px;
+  }
+  .service-bullets li::before{
+    content:'';
+    position:absolute;left:0;top:.65em;
+    width:10px;height:1px;
+    background:var(--black);
+  }
+  .service-more-wrap{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .5s var(--ease);
+  }
+  .service-more-wrap.open{grid-template-rows:1fr;}
+  .service-more-inner{overflow:hidden;}
+  .service-more-inner .service-bullets{padding-top:2px;}
+  .see-more-btn{
+    margin-top:6px;
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--black);
+    border:1px solid var(--gray-200);
+    padding:9px 16px;
+    border-radius:999px;
+    transition:background .25s ease,color .25s ease;
+  }
+  .see-more-btn:hover{background:var(--black);color:var(--white);}
+
+  /* ============ PORTFOLIO (category carousels) ============ */
+  .portfolio-categories{
+    margin-top:50px;
+    display:flex;
+    flex-direction:column;
+    gap:26px;
+  }
+  .pf-category{
+    border:1px solid var(--gray-200);
+    border-radius:18px;
+    overflow:hidden;
+    background:var(--white);
+    transition:background-color .45s var(--ease), border-color .45s var(--ease), box-shadow .3s var(--ease), transform .3s var(--ease);
+  }
+  .pf-category:hover{
+    box-shadow:0 16px 34px -20px rgba(0,0,0,.35);
+    transform:translateY(-2px);
+  }
+  .pf-cat-header{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:14px;
+    padding:18px clamp(18px,3vw,28px);
+    background:var(--black);
+    color:var(--white);
+    cursor:pointer;
+    user-select:none;
+    transition:background-color .35s ease;
+  }
+  .pf-cat-header:hover{
+    background-color:#1c1c1c;
+  }
+  /* Always-dark surface: portfolio headers stay black-bg/white-text even
+     when the site is switched to dark mode (where --black/--white flip). */
+  body.dark-mode .pf-cat-header{
+    --black:#0a0a0a;
+    --white:#f5f5f5;
+  }
+  .pf-cat-left{
+    display:flex;align-items:center;gap:16px;
+    min-width:0;
+  }
+  .pf-cat-index{
+    font-family:var(--font-mono);
+    font-size:.82rem;
+    color:rgba(255,255,255,.45);
+    width:26px;flex-shrink:0;
+  }
+  .pf-cat-title{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:1rem;
+    letter-spacing:.01em;
+  }
+  .pf-cat-right{
+    display:flex;align-items:center;gap:14px;
+    flex-shrink:0;
+  }
+  .pf-cat-counter{
+    font-family:var(--font-mono);
+    font-size:.7rem;
+    letter-spacing:.08em;
+    opacity:.65;
+    white-space:nowrap;
+  }
+  .pf-cat-chevron{
+    width:28px;height:28px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.3);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    transition:background-color .3s ease, border-color .3s ease, transform .3s ease;
+  }
+  .pf-cat-header:hover .pf-cat-chevron{
+    border-color:rgba(255,255,255,.75);
+    transform:scale(1.08);
+  }
+  .pf-cat-chevron svg{
+    width:12px;height:12px;
+    stroke:#fff;fill:none;stroke-width:1.8;
+    transition:transform .35s var(--ease);
+  }
+  .pf-category.open .pf-cat-chevron{background:#fff;border-color:#fff;}
+  .pf-category.open .pf-cat-chevron svg{stroke:#000;transform:rotate(180deg);}
+
+  .pf-cat-panel{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .6s var(--ease);
+  }
+  .pf-category.open .pf-cat-panel{grid-template-rows:1fr;}
+  .pf-cat-panel-inner{overflow:hidden;}
+
+  .pf-carousel{
+    display:flex;
+    align-items:stretch;
+  }
+  .pf-arrow{
+    flex:0 0 56px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--gray-100);
+    transition:background-color .2s ease;
+  }
+  .pf-arrow:hover{background:var(--gray-200);}
+  .pf-arrow:disabled{opacity:.35;cursor:default;}
+  .pf-arrow svg{width:18px;height:18px;stroke:var(--black);fill:none;stroke-width:2;}
+
+  .pf-viewport{
+    flex:1;
+    min-width:0;
+    position:relative;
+    overflow:hidden;
+  }
+  .pf-slide{display:none;}
+  .pf-slide.active{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(20px,3vw,36px);
+    align-items:center;
+    padding:clamp(22px,3.5vw,34px) clamp(20px,3.5vw,32px);
+    animation:pfFade .4s var(--ease);
+  }
+  @keyframes pfFade{from{opacity:0;transform:translateX(8px);}to{opacity:1;transform:translateX(0);}}
+
+  .pf-slide-eyebrow{
+    font-family:var(--font-mono);
+    font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--gray-400);
+    margin-bottom:8px;
+  }
+  .pf-slide-title{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:clamp(1.05rem,1.6vw,1.35rem);
+    line-height:1.25;
+    margin-bottom:10px;
+  }
+  .pf-slide-desc{
+    font-size:.92rem;
+    line-height:1.65;
+    color:var(--gray-600);
+  }
+
+  .pf-slide-media{
+    position:relative;
+    aspect-ratio:16/10;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid var(--gray-200);
+    background:var(--gray-100);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .pf-slide-media.has-image{cursor:zoom-in;}
+  .pf-slide-media img{width:100%;height:100%;object-fit:cover;display:block;}
+  .pf-img-placeholder{
+    text-align:center;
+    padding:18px;
+    color:var(--gray-400);
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.03em;
+    line-height:1.6;
+  }
+  .pf-img-placeholder svg{width:26px;height:26px;margin:0 auto 8px;stroke:var(--gray-400);fill:none;stroke-width:1.4;}
+  .pf-img-counter{
+    position:absolute;bottom:10px;right:12px;
+    font-family:var(--font-mono);font-size:.65rem;letter-spacing:.05em;
+    color:#fff;background:rgba(10,10,10,.55);backdrop-filter:blur(4px);
+    padding:4px 9px;border-radius:999px;
+  }
+  .pf-dots{display:flex;gap:5px;margin-top:12px;}
+  .pf-dot{width:6px;height:6px;border-radius:50%;background:var(--gray-200);transition:all .25s ease;}
+  .pf-dot.active{width:15px;border-radius:4px;background:var(--black);}
+
+  /* Lightbox */
+  .pf-lightbox{
+    position:fixed;inset:0;z-index:3000;
+    background:rgba(0,0,0,.92);
+    display:none;align-items:center;justify-content:center;
+    padding:50px clamp(16px,6vw,80px);
+  }
+  .pf-lightbox.open{display:flex;}
+  .pf-lightbox img{max-width:100%;max-height:78vh;border-radius:10px;display:block;cursor:pointer;}
+  .pf-lightbox-close{
+    position:absolute;top:22px;right:26px;
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;
+  }
+  .pf-lightbox-close:hover{background:rgba(255,255,255,.2);}
+  .pf-lightbox-close svg{width:18px;height:18px;}
+  .pf-lightbox-nav{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:46px;height:46px;border-radius:50%;
+    background:rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;
+  }
+  .pf-lightbox-nav:hover{background:rgba(255,255,255,.2);}
+  .pf-lightbox-nav svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;}
+  .pf-lightbox-prev{left:16px;}
+  .pf-lightbox-next{right:16px;}
+  .pf-lightbox-counter{
+    position:absolute;bottom:22px;left:50%;transform:translateX(-50%);
+    font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;
+    color:rgba(255,255,255,.7);
+  }
+
+  /* ============ CONTACT / FOOTER ============ */
+  #contact-section{
+    background:var(--white);
+    color:var(--black);
+    text-align:center;
+    border-top:1px solid var(--gray-200);
+    transition:background-color .45s var(--ease), color .45s var(--ease), border-color .45s var(--ease);
+  }
+  #contact-section .eyebrow{color:var(--gray-400);}
+  #contact-section .eyebrow::before{background:var(--black);}
+  .contact-cta-title{
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:clamp(2.2rem,6vw,4.6rem);
+    letter-spacing:-.02em;
+    line-height:1.02;
+  }
+  .contact-email{
+    display:inline-block;margin-top:30px;
+    font-family:var(--font-mono);
+    font-size:1.05rem;
+    border-bottom:1px solid var(--gray-400);
+    padding-bottom:4px;
+  }
+  .social-row{
+    margin-top:46px;
+    display:flex;justify-content:center;gap:26px;
+  }
+  .social-row a{
+    width:46px;height:46px;border-radius:50%;
+    border:1px solid var(--gray-200);
+    display:flex;align-items:center;justify-content:center;
+    transition:background .2s ease,border-color .2s ease;
+  }
+  .social-row a:hover{background:var(--gray-100);border-color:var(--gray-400);}
+  .social-row svg{width:22px;height:22px;border-radius:6px;}
+  footer{
+    padding:26px clamp(20px,5vw,56px);
+    display:flex;justify-content:space-between;
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    color:var(--gray-500);
+    letter-spacing:.05em;
+    border-top:1px solid var(--gray-200);
+    margin-top:70px;
+  }
+
+  /* ============ FLOATING BUTTONS ============ */
+  .float-stack{
+    position:fixed;
+    right:26px;bottom:28px;
+    z-index:600;
+    display:flex;flex-direction:column;gap:16px;
+  }
+  .float-btn{
+    --btn-bg:var(--black);
+    position:relative;
+    width:56px;height:56px;
+    border-radius:50%;
+    background:var(--btn-bg);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .2s ease;
+  }
+  .float-btn.whatsapp{
+    --btn-bg:#25D366;
+    box-shadow:0 8px 30px rgba(37,211,102,.4);
+    animation:pulse-wa 2.5s infinite;
+  }
+  .float-btn.gmail{
+    --btn-bg:#ffffff;
+    border:1px solid var(--gray-200);
+    box-shadow:0 8px 30px rgba(234,67,53,.35);
+    animation:pulse-gmail 2.5s infinite 1s;
+  }
+  .float-btn:hover{transform:scale(1.1);}
+  .float-btn svg{width:28px;height:28px;position:relative;z-index:2;}
+  @keyframes pulse-wa{
+    0%,100%{box-shadow:0 8px 30px rgba(37,211,102,.4);}
+    50%{box-shadow:0 8px 40px rgba(37,211,102,.7),0 0 0 12px rgba(37,211,102,.08);}
+  }
+  @keyframes pulse-gmail{
+    0%,100%{box-shadow:0 8px 30px rgba(234,67,53,.35);}
+    50%{box-shadow:0 8px 40px rgba(234,67,53,.6),0 0 0 12px rgba(234,67,53,.08);}
+  }
+
+  /* ============ MOBILE ============ */
+  @media (max-width:900px){
+    nav.main-nav{
+      position:fixed;top:73px;left:0;right:0;
+      background:var(--white);
+      flex-direction:column;gap:0;
+      padding:10px 0;
+      border-bottom:1px solid var(--gray-200);
+      transform:translateY(-140%);
+      transition:transform .35s var(--ease);
+    }
+    nav.main-nav.open{transform:translateY(0);}
+    nav.main-nav a{padding:14px 26px;width:100%;}
+    .nav-toggle{display:block;}
+    .hero-grid{grid-template-columns:1fr;text-align:center;}
+    .hero-status{margin-inline:auto;}
+    .portrait-wrap{margin:0 auto;width:min(300px,62vw);}
+    .hero-desc{margin-inline:auto;}
+    .hero-cta{justify-content:center;}
+    .about-grid{grid-template-columns:1fr;gap:36px;}
+    .service-header{padding:24px 0;gap:16px;}
+    .service-content{padding-left:44px;}
+    .pf-slide.active{grid-template-columns:1fr;}
+    .pf-slide-media{order:-1;}
+    .pf-arrow{flex-basis:42px;}
+    .pf-cat-title{font-size:.86rem;}
+    .pf-cat-index{width:20px;font-size:.72rem;}
+    .pf-cat-counter{display:none;}
+    footer{flex-direction:column;gap:8px;text-align:center;}
+    section{padding:110px clamp(20px,5vw,56px) 60px;}
+    .stat{padding:22px 18px;}
+    .float-stack{right:18px;bottom:18px;gap:12px;}
+    .float-btn{width:48px;height:48px;}
+    .float-btn svg{width:23px;height:23px;}
+  }
+
+  @media (max-width:420px){
+    .stat-grid{grid-template-columns:1fr;}
+    .about-bullets li{font-size:.96rem;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ LOADER ============ -->
+<div id="loader">
+  <div class="loader-inner">
+    <div class="loader-name"><span style="animation-delay:.1s">R</span><span style="animation-delay:.15s">E</span><span style="animation-delay:.2s">T</span><span style="animation-delay:.25s">H</span><span style="animation-delay:.3s">O</span><span style="animation-delay:.35s">Y</span><span style="animation-delay:.4s">&nbsp;</span><span style="animation-delay:.45s">I</span><span style="animation-delay:.5s">S</span><span style="animation-delay:.55s">L</span><span style="animation-delay:.6s">A</span><span style="animation-delay:.65s">M</span></div>
+    <div class="loader-track"><div class="loader-bar"></div></div>
+    <div class="loader-tag">Ads &amp; Tracking Specialist</div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <button class="header-mark" id="themeToggle" type="button" aria-label="Toggle dark mode" title="Toggle dark / light mode">RI</button>
+
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav class="main-nav" id="mainNav">
+    <a href="#home">Home</a>
+    <a href="#about">About Me</a>
+    <a href="#services">Services</a>
+    <a href="#portfolio">Portfolio</a>
+  </nav>
+
+  <div class="contact-wrap" id="contactWrap">
+    <button class="btn-black" id="contactBtn">
+      Contact Me
+      <svg viewBox="0 0 12 8" fill="none"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="contact-dropdown">
+      <a href="https://facebook.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M15.4 12.6h-2.1V20h-3v-7.4H8.8v-2.6h1.5V8.4c0-1.9 1.1-3 3.3-3h2v2.5h-1.3c-.5 0-.9.2-.9.9v1.2h2.2l-.2 2.6z"/></svg>
+        Facebook
+      </a>
+      <a href="https://instagram.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><defs><linearGradient id="igGradDD" x1="0" y1="24" x2="24" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".25" stop-color="#FA7E1E"/><stop offset=".5" stop-color="#D62976"/><stop offset=".75" stop-color="#962FBF"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient></defs><rect x="1" y="1" width="22" height="22" rx="6" fill="url(#igGradDD)"/><rect x="6.3" y="6.3" width="11.4" height="11.4" rx="3.6" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="17.3" cy="6.7" r="1" fill="#fff"/></svg>
+        Instagram
+      </a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="5" fill="#0A66C2"/><path fill="#fff" d="M7.2 9.6h2.6v8.4H7.2V9.6zm1.3-4.1a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zM11.4 9.6h2.5v1.15h.03c.35-.66 1.2-1.35 2.47-1.35 2.64 0 3.13 1.74 3.13 4v4.6h-2.6v-4.08c0-.97-.02-2.22-1.35-2.22-1.36 0-1.57 1.06-1.57 2.15v4.15h-2.6V9.6z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://twitter.com" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="5" fill="#fff"/><path fill="#000" d="M6.5 6l4.7 6.3L6.2 18h1.8l3.8-4.6L14.9 18h3.4l-4.9-6.6L18 6h-1.8l-3.5 4.2L9.7 6H6.5z"/></svg>
+        Twitter / X
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<section id="home">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="status-pill hero-status">
+        <span class="status-dot"></span>
+        <span class="status-text">Available for New Project</span>
+      </div>
+      <h1 class="hero-title"><span class="rule">Rethoy Islam</span></h1>
+      <div class="hero-role"><span id="typeRole"></span><span class="type-cursor">|</span></div>
+      <p class="hero-desc">I build tracking-accurate ad systems and conversion-first landing experiences — turning clicks into measurable, repeatable revenue.</p>
+      <div class="hero-cta">
+        <a href="#portfolio" class="btn-black">View Portfolio</a>
+        <a href="#contact-section" class="btn-outline">Let's Talk</a>
+      </div>
+    </div>
+
+    <div class="portrait-wrap">
+      <div class="ring-rotate"></div>
+      <div class="portrait-photo">
+        <!-- To use your own photo: replace the line below with
+             <img src="your-photo.jpg" alt="Rethoy Islam">
+             It will automatically crop and fill this circle. -->
+        <span>RI</span>
+        <div class="portrait-dot"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="eyebrow">About Me</div>
+  <h2 class="section-title">Behind every scaled<br>campaign is clean data.</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <ul class="about-bullets">
+        <li>I'm <span class="text-normal">Rethoy Islam</span>, a performance marketer who lives at the intersection of <span class="text-normal">ad strategy</span> and <span class="text-normal">tracking infrastructure</span>.</li>
+        <li>Most accounts don't fail from bad creative — they fail from broken pixels, mis-attributed conversions, and funnels nobody audited.</li>
+        <li>I fix that. Every project starts with a full tracking audit.</li>
+        <li>Then it moves into campaign structure, landing page optimization, and a reporting layer you can actually trust.</li>
+      </ul>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Accounts Managed</div></div>
+      <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Tracking Accuracy</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Satisfaction</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="eyebrow">Services</div>
+  <h2 class="section-title">What I can do for<br>your business.</h2>
+  <div class="service-list">
+
+    <div class="service-item" data-service>
+      <button class="service-header">
+        <span class="service-index">01</span>
+        <span class="service-title">Meta Ads Management</span>
+        <span class="service-icon"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="service-panel">
+        <div class="service-panel-inner">
+          <div class="service-content">
+            <ul class="service-bullets">
+              <li>Full Meta ad account setup and audience research</li>
+              <li>Creative testing across image, video and carousel formats</li>
+              <li>Weekly optimization, budget pacing and reporting</li>
+            </ul>
+            <div class="service-more-wrap">
+              <div class="service-more-inner">
+                <ul class="service-bullets">
+                  <li>Pixel and Conversions API (CAPI) setup</li>
+                  <li>Lookalike and retargeting funnel building</li>
+                  <li>Scaling strategy for winning campaigns</li>
+                </ul>
+              </div>
+            </div>
+            <button class="see-more-btn" data-more>+ See more</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-item" data-service>
+      <button class="service-header">
+        <span class="service-index">02</span>
+        <span class="service-title">Google Ads</span>
+        <span class="service-icon"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="service-panel">
+        <div class="service-panel-inner">
+          <div class="service-content">
+            <ul class="service-bullets">
+              <li>Search, Display and Performance Max campaign setup</li>
+              <li>Keyword research built around real buyer intent</li>
+              <li>Bid strategy, budget pacing and pacing control</li>
+            </ul>
+            <div class="service-more-wrap">
+              <div class="service-more-inner">
+                <ul class="service-bullets">
+                  <li>Shopping campaign setup for e-commerce</li>
+                  <li>Ongoing negative keyword audits</li>
+                  <li>Quality Score and ad-relevance improvement</li>
+                </ul>
+              </div>
+            </div>
+            <button class="see-more-btn" data-more>+ See more</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-item" data-service>
+      <button class="service-header">
+        <span class="service-index">03</span>
+        <span class="service-title">Conversion Rate Optimization</span>
+        <span class="service-icon"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="service-panel">
+        <div class="service-panel-inner">
+          <div class="service-content">
+            <ul class="service-bullets">
+              <li>Full landing page and funnel audits</li>
+              <li>A/B testing roadmap for key pages</li>
+              <li>Funnel drop-off and friction-point analysis</li>
+            </ul>
+            <div class="service-more-wrap">
+              <div class="service-more-inner">
+                <ul class="service-bullets">
+                  <li>Heatmap and session-recording review</li>
+                  <li>Copy and call-to-action testing</li>
+                  <li>Mobile experience optimization</li>
+                </ul>
+              </div>
+            </div>
+            <button class="see-more-btn" data-more>+ See more</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-item" data-service>
+      <button class="service-header">
+        <span class="service-index">04</span>
+        <span class="service-title">Tracking &amp; Analytics Setup</span>
+        <span class="service-icon"><svg viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+      <div class="service-panel">
+        <div class="service-panel-inner">
+          <div class="service-content">
+            <ul class="service-bullets">
+              <li>GTM and GA4 configuration from scratch</li>
+              <li>Server-side tracking / Conversions API setup</li>
+              <li>Cross-platform attribution you can trust</li>
+            </ul>
+            <div class="service-more-wrap">
+              <div class="service-more-inner">
+                <ul class="service-bullets">
+                  <li>Custom event and goal tracking</li>
+                  <li>Dashboard and reporting setup</li>
+                  <li>Full data-layer audits</li>
+                </ul>
+              </div>
+            </div>
+            <button class="see-more-btn" data-more>+ See more</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PORTFOLIO ============ -->
+<section id="portfolio">
+  <div class="eyebrow">Portfolio</div>
+  <h2 class="section-title">Selected work.</h2>
+
+  <!-- Categories are rendered here by JS from the portfolioData array below.
+       To add your images later, just edit portfolioData — no HTML editing needed. -->
+  <div class="portfolio-categories" id="portfolioCategories"></div>
+</section>
+
+<!-- Lightbox (zoomed image viewer) -->
+<div class="pf-lightbox" id="pfLightbox">
+  <button class="pf-lightbox-close" id="pfLightboxClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button class="pf-lightbox-nav pf-lightbox-prev" id="pfLightboxPrev" aria-label="Previous image">
+    <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  <img id="pfLightboxImg" src="" alt="">
+  <button class="pf-lightbox-nav pf-lightbox-next" id="pfLightboxNext" aria-label="Next image">
+    <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <div class="pf-lightbox-counter" id="pfLightboxCounter"></div>
+</div>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact-section">
+  <div class="eyebrow" style="justify-content:center;">Get In Touch</div>
+  <h2 class="contact-cta-title">Let's build your<br>next campaign.</h2>
+  <a href="mailto:hello@rethoyislam.com" class="contact-email">hello@rethoyislam.com</a>
+  <div class="social-row">
+    <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M15.4 12.6h-2.1V20h-3v-7.4H8.8v-2.6h1.5V8.4c0-1.9 1.1-3 3.3-3h2v2.5h-1.3c-.5 0-.9.2-.9.9v1.2h2.2l-.2 2.6z"/></svg>
+    </a>
+    <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><defs><linearGradient id="igGradFT" x1="0" y1="24" x2="24" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".25" stop-color="#FA7E1E"/><stop offset=".5" stop-color="#D62976"/><stop offset=".75" stop-color="#962FBF"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient></defs><rect x="1" y="1" width="22" height="22" rx="6" fill="url(#igGradFT)"/><rect x="6.3" y="6.3" width="11.4" height="11.4" rx="3.6" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="17.3" cy="6.7" r="1" fill="#fff"/></svg>
+    </a>
+    <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="5" fill="#0A66C2"/><path fill="#fff" d="M7.2 9.6h2.6v8.4H7.2V9.6zm1.3-4.1a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zM11.4 9.6h2.5v1.15h.03c.35-.66 1.2-1.35 2.47-1.35 2.64 0 3.13 1.74 3.13 4v4.6h-2.6v-4.08c0-.97-.02-2.22-1.35-2.22-1.36 0-1.57 1.06-1.57 2.15v4.15h-2.6V9.6z"/></svg>
+    </a>
+    <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">
+      <svg viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="5" fill="#fff"/><path fill="#000" d="M6.5 6l4.7 6.3L6.2 18h1.8l3.8-4.6L14.9 18h3.4l-4.9-6.6L18 6h-1.8l-3.5 4.2L9.7 6H6.5z"/></svg>
+    </a>
+  </div>
+  <footer>
+    <span>© 2026 Rethoy Islam</span>
+    <span>Ads &amp; Tracking Specialist</span>
+  </footer>
+</section>
+
+<!-- ============ FLOATING BUTTONS ============ -->
+<div class="float-stack">
+  <a href="https://wa.me/8800000000000" target="_blank" rel="noopener" class="float-btn whatsapp" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+  <a href="mailto:hello@rethoyislam.com" class="float-btn gmail" aria-label="Gmail">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.910 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" fill="#EA4335"/>
+    </svg>
+  </a>
+</div>
+
+<script>
+  // ---- Loader (every reload) ----
+  window.addEventListener('load', () => {
+    const nameEl = document.querySelector('.loader-name');
+    const track = document.querySelector('.loader-track');
+    // Match the progress bar's width exactly to the rendered name width
+    track.style.width = nameEl.getBoundingClientRect().width + 'px';
+
+    // Standard comfortable reading time for "RETHOY ISLAM" before revealing the site
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('done');
+    }, 2600);
+  });
+
+  // ---- Dark / light mode toggle (click the RI logo) ----
+  (function(){
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    const STORAGE_KEY = 'ri-theme';
+
+    // Apply saved preference only — new visitors always start on the white/light version
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved === 'dark'){
+      body.classList.add('dark-mode');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const isDark = body.classList.toggle('dark-mode');
+      localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
+    });
+  })();
+
+  // ---- Mobile nav toggle ----
+  const navToggle = document.getElementById('navToggle');
+  const mainNav = document.getElementById('mainNav');
+  navToggle.addEventListener('click', () => mainNav.classList.toggle('open'));
+  mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mainNav.classList.remove('open')));
+
+  // ---- Hero role: continuous keyboard-typing loop ----
+  (function(){
+    const el = document.getElementById('typeRole');
+    if(!el) return;
+    const text = 'ADS & TRACKING SPECIALIST';
+    let i = 0;
+    let deleting = false;
+
+    function tick(){
+      if(!deleting){
+        i++;
+        el.textContent = text.slice(0, i);
+        if(i === text.length){
+          deleting = true;
+          setTimeout(tick, 1600); // pause while fully typed
+          return;
+        }
+        setTimeout(tick, 90);
+      } else {
+        i--;
+        el.textContent = text.slice(0, i);
+        if(i === 0){
+          deleting = false;
+          setTimeout(tick, 500); // pause while empty, then retype
+          return;
+        }
+        setTimeout(tick, 45);
+      }
+    }
+    tick();
+  })();
+
+  // ---- Contact dropdown ----
+  const contactWrap = document.getElementById('contactWrap');
+  const contactBtn = document.getElementById('contactBtn');
+  contactBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    contactWrap.classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if(!contactWrap.contains(e.target)) contactWrap.classList.remove('open');
+  });
+
+  // ---- Services accordion (smooth grid-rows animation, no jank) ----
+  document.querySelectorAll('[data-service]').forEach(item => {
+    const header = item.querySelector('.service-header');
+    header.addEventListener('click', () => {
+      const wasOpen = item.classList.contains('open');
+      // close the others for a clean single-open accordion feel
+      document.querySelectorAll('[data-service]').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  document.querySelectorAll('[data-more]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wrap = btn.parentElement.querySelector('.service-more-wrap');
+      const isOpen = wrap.classList.toggle('open');
+      btn.textContent = isOpen ? '− See less' : '+ See more';
+    });
+  });
+
+  /* ==========================================================================
+     PORTFOLIO — category carousels
+     ==========================================================================
+     HOW TO ADD YOUR IMAGES (image pore bosaben eivabe):
+     Niche "portfolioData" array-e protita item-er `images: []` array-e
+     tomar image-er path/URL bosao. Jemon:
+
+        images: ['images/ga4-1.png', 'images/ga4-2.png', 'images/ga4-3.png']
+
+     - 0 images dile: gray placeholder box dekhabe ("Image coming soon").
+     - 1 image dile: shudhu oi image ta dekhabe, click korle zoom/lightbox e khulbe.
+     - 2+ images dile: proti 2.2 second por por image gulo automatic change
+       hote thakbe, r click korle lightbox khule click-through kore next
+       image-e jawa jabe. Lightbox বন্ধ করলে (X বা বাইরে click) আগের মতো ফিরে আসবে.
+
+     Category/step er naam, description shob e neeche edit kora jabe.
+     ========================================================================== */
+
+  const portfolioData = [
+    {
+      title: 'Website Tracking',
+      type: 'subtype',
+      items: [
+        { name: 'Cookie Banner Setup', desc: 'GDPR / CCPA compliant consent banner setup with proper Google Consent Mode integration, so tracking stays compliant and data loss is minimized.', images: [] },
+        { name: 'Microsoft Clarity', desc: 'Session recording and heatmap tracking setup to understand real user behavior, rage-clicks and drop-off points on the site.', images: [] },
+        { name: 'GA4', desc: 'Full GA4 property setup with custom events, key conversions and e-commerce tracking configured for accurate reporting.', images: [] },
+        { name: 'Google Ads Tag', desc: 'Google Ads conversion tag setup on the website for accurate conversion tracking and reliable ROAS reporting.', images: [] },
+        { name: 'Meta Pixel', desc: 'Meta Pixel and Conversions API (CAPI) setup for accurate ad attribution, even with iOS14+ and browser tracking limits.', images: [] },
+        { name: 'TikTok Pixel', desc: 'TikTok Pixel and event tracking setup for accurate campaign optimization and conversion measurement.', images: [] },
+        { name: 'Snapchat Pixel', desc: 'Snapchat Pixel setup for conversion tracking and audience building on Snapchat Ads.', images: [] },
+        { name: 'Pinterest Tag', desc: 'Pinterest Tag setup for conversion tracking and catalog/product feed connection.', images: [] },
+        { name: 'LinkedIn Insight Tag', desc: 'LinkedIn Insight Tag setup for B2B lead tracking and retargeting audience building.', images: [] },
+        { name: 'Microsoft (Bing) UET Tag', desc: 'Microsoft UET tag setup for Bing Ads conversion tracking and remarketing audiences.', images: [] },
+        { name: 'Offline Conversion Tracking', desc: 'Offline conversion import setup that connects CRM / sales / call data back to the ad platforms for full-funnel attribution.', images: [] }
+      ]
+    },
+    {
+      title: 'Google Ads',
+      type: 'subtype',
+      items: [
+        { name: 'Google Shopping Ads', desc: 'Product feed optimization and Shopping campaign structure built for maximum ROAS and product visibility.', images: [] },
+        { name: 'Google Search Ads', desc: 'High-intent keyword targeting, ad copy testing and bid strategy tuning for search campaigns.', images: [] },
+        { name: 'Google Ads Account Setup', desc: 'Full account structure, conversion setup and audit across all campaign types from scratch.', images: [] },
+        { name: 'Google Remarketing Ads', desc: 'Custom audience remarketing campaigns built to re-engage past visitors and cart abandoners.', images: [] },
+        { name: 'Performance Max Campaign', desc: 'Performance Max setup with optimized asset groups, audience signals and feed integration.', images: [] },
+        { name: 'Demand Gen Campaign', desc: 'Demand Gen campaigns for visual-led prospecting across YouTube, Discover and Gmail placements.', images: [] }
+      ]
+    },
+    {
+      title: 'Google Merchant Center — Account Create & Issue Fix',
+      type: 'process',
+      items: [
+        { name: 'Account Create', desc: 'New Google Merchant Center account setup, business info and store URL/domain verification.', images: [] },
+        { name: 'Product Feed Setup', desc: 'Product feed creation and correct linking between Merchant Center and the Google Ads account.', images: [] },
+        { name: 'Issue Diagnose', desc: 'Auditing feed errors and policy disapprovals to identify the exact root cause behind each issue.', images: [] },
+        { name: 'Fix Applied & Approved', desc: 'Fixes implemented and re-submitted — products approved and live for Shopping ads.', images: [] }
+      ]
+    },
+    {
+      title: 'Data Analysis',
+      type: 'process',
+      items: [
+        { name: 'Raw Data in GA4', desc: 'Raw event and user-level data collected and structured correctly inside GA4.', images: [] },
+        { name: 'Filter / Segment', desc: 'Data filtered and segmented by channel, audience and behavior to isolate what matters.', images: [] },
+        { name: 'Insight / Report', desc: 'Findings compiled into a clear, actionable performance report for decision-making.', images: [] }
+      ]
+    },
+    {
+      title: 'Data Visualization',
+      type: 'process',
+      items: [
+        { name: 'Data Source Connect', desc: 'Connecting GA4, Google Ads, Meta and Sheets as live data sources.', images: [] },
+        { name: 'Looker Studio Dashboard Build', desc: 'Building an interactive, live Looker Studio dashboard on top of the connected sources.', images: [] },
+        { name: 'Final Dashboard', desc: 'A polished, client-ready dashboard delivered with clear KPIs at a glance.', images: [] }
+      ]
+    }
+  ];
+
+  const pfIconArrow = (dir) => dir === 'prev'
+    ? '<svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>'
+    : '<svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
+
+  const pfPlaceholderSVG = '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg>';
+
+  // ---- Lightbox controller ----
+  const lb = {
+    el: document.getElementById('pfLightbox'),
+    img: document.getElementById('pfLightboxImg'),
+    counter: document.getElementById('pfLightboxCounter'),
+    images: [],
+    index: 0,
+    onChange: null,
+    open(images, startIndex, onChange){
+      this.images = images;
+      this.index = startIndex;
+      this.onChange = onChange;
+      this.render();
+      this.el.classList.add('open');
+    },
+    close(){
+      this.el.classList.remove('open');
+    },
+    render(){
+      this.img.src = this.images[this.index];
+      this.counter.textContent = (this.index + 1) + ' / ' + this.images.length;
+    },
+    next(){
+      this.index = (this.index + 1) % this.images.length;
+      this.render();
+      if(this.onChange) this.onChange(this.index);
+    },
+    prev(){
+      this.index = (this.index - 1 + this.images.length) % this.images.length;
+      this.render();
+      if(this.onChange) this.onChange(this.index);
+    }
+  };
+  document.getElementById('pfLightboxClose').addEventListener('click', () => lb.close());
+  document.getElementById('pfLightboxNext').addEventListener('click', (e) => { e.stopPropagation(); lb.next(); });
+  document.getElementById('pfLightboxPrev').addEventListener('click', (e) => { e.stopPropagation(); lb.prev(); });
+  lb.img.addEventListener('click', () => lb.next());
+  lb.el.addEventListener('click', (e) => { if(e.target === lb.el) lb.close(); });
+  document.addEventListener('keydown', (e) => {
+    if(!lb.el.classList.contains('open')) return;
+    if(e.key === 'Escape') lb.close();
+    if(e.key === 'ArrowRight') lb.next();
+    if(e.key === 'ArrowLeft') lb.prev();
+  });
+
+  // ---- Build each category carousel (accordion — one open at a time) ----
+  function buildPortfolio(){
+    const root = document.getElementById('portfolioCategories');
+    const controllers = [];
+
+    portfolioData.forEach((cat, catIdx) => {
+      const state = { current: 0, imgIndex: 0, timer: null };
+
+      const catEl = document.createElement('div');
+      catEl.className = 'pf-category';
+
+      catEl.innerHTML = `
+        <div class="pf-cat-header" data-role="header" role="button" tabindex="0" aria-expanded="false">
+          <div class="pf-cat-left">
+            <span class="pf-cat-index">${String(catIdx + 1).padStart(2, '0')}</span>
+            <span class="pf-cat-title">${cat.title}</span>
+          </div>
+          <div class="pf-cat-right">
+            <span class="pf-cat-counter" data-role="counter"></span>
+            <span class="pf-cat-chevron"><svg viewBox="0 0 14 14"><path d="M2.5 5L7 9.5L11.5 5"/></svg></span>
+          </div>
+        </div>
+        <div class="pf-cat-panel" data-role="panel">
+          <div class="pf-cat-panel-inner">
+            <div class="pf-carousel">
+              <button class="pf-arrow pf-prev" type="button" aria-label="Previous">${pfIconArrow('prev')}</button>
+              <div class="pf-viewport">
+                <div class="pf-slide active">
+                  <div class="pf-slide-info">
+                    <div class="pf-slide-eyebrow" data-role="eyebrow"></div>
+                    <div class="pf-slide-title" data-role="title"></div>
+                    <div class="pf-slide-desc" data-role="desc"></div>
+                  </div>
+                  <div class="pf-slide-media" data-role="media"></div>
+                </div>
+              </div>
+              <button class="pf-arrow pf-next" type="button" aria-label="Next">${pfIconArrow('next')}</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      root.appendChild(catEl);
+
+      const headerEl = catEl.querySelector('[data-role="header"]');
+      const counterEl = catEl.querySelector('[data-role="counter"]');
+      const eyebrowEl = catEl.querySelector('[data-role="eyebrow"]');
+      const titleEl = catEl.querySelector('[data-role="title"]');
+      const descEl = catEl.querySelector('[data-role="desc"]');
+      const mediaEl = catEl.querySelector('[data-role="media"]');
+      const prevBtn = catEl.querySelector('.pf-prev');
+      const nextBtn = catEl.querySelector('.pf-next');
+
+      function renderMedia(){
+        const item = cat.items[state.current];
+        const images = item.images || [];
+        mediaEl.innerHTML = '';
+        mediaEl.classList.toggle('has-image', images.length > 0);
+
+        if(images.length === 0){
+          mediaEl.innerHTML = `<div class="pf-img-placeholder">${pfPlaceholderSVG}Image coming soon</div>`;
+          return;
+        }
+
+        const img = document.createElement('img');
+        img.src = images[state.imgIndex];
+        img.alt = item.name;
+        mediaEl.appendChild(img);
+
+        if(images.length > 1){
+          const counter = document.createElement('div');
+          counter.className = 'pf-img-counter';
+          counter.textContent = (state.imgIndex + 1) + ' / ' + images.length;
+          mediaEl.appendChild(counter);
+        }
+
+        mediaEl.onclick = () => {
+          stopAutoplay();
+          lb.open(images, state.imgIndex, (newIndex) => {
+            state.imgIndex = newIndex;
+          });
+        };
+      }
+
+      function renderSlide(){
+        const item = cat.items[state.current];
+        const total = cat.items.length;
+        eyebrowEl.textContent = cat.type === 'process'
+          ? `Step ${state.current + 1} of ${total}`
+          : `Tracking type ${state.current + 1} of ${total}`;
+        titleEl.textContent = item.name;
+        descEl.textContent = item.desc;
+        counterEl.textContent = (state.current + 1) + ' / ' + total;
+        renderMedia();
+      }
+
+      function stopAutoplay(){
+        if(state.timer){
+          clearInterval(state.timer);
+          state.timer = null;
+        }
+      }
+
+      function startAutoplay(){
+        stopAutoplay();
+        if(!catEl.classList.contains('open')) return;
+        const item = cat.items[state.current];
+        if(item.images && item.images.length > 1){
+          state.timer = setInterval(() => {
+            state.imgIndex = (state.imgIndex + 1) % item.images.length;
+            renderMedia();
+          }, 2200);
+        }
+      }
+
+      function goTo(newIndex){
+        const total = cat.items.length;
+        state.current = (newIndex + total) % total;
+        state.imgIndex = 0;
+        renderSlide();
+        startAutoplay();
+      }
+
+      function openCategory(){
+        catEl.classList.add('open');
+        headerEl.setAttribute('aria-expanded', 'true');
+        startAutoplay();
+      }
+
+      function closeCategory(){
+        catEl.classList.remove('open');
+        headerEl.setAttribute('aria-expanded', 'false');
+        stopAutoplay();
+      }
+
+      prevBtn.addEventListener('click', (e) => { e.stopPropagation(); goTo(state.current - 1); });
+      nextBtn.addEventListener('click', (e) => { e.stopPropagation(); goTo(state.current + 1); });
+      mediaEl.addEventListener('mouseenter', stopAutoplay);
+      mediaEl.addEventListener('mouseleave', startAutoplay);
+
+      headerEl.addEventListener('click', () => {
+        const wasOpen = catEl.classList.contains('open');
+        controllers.forEach(c => c.close());
+        if(!wasOpen) openCategory();
+      });
+      headerEl.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          headerEl.click();
+        }
+      });
+
+      renderSlide();
+      controllers.push({ el: catEl, open: openCategory, close: closeCategory });
+    });
+
+    // All portfolio sections start closed — user opens whichever they want manually.
+  }
+
+  buildPortfolio();
+</script>
+
+</body>
+</html>
