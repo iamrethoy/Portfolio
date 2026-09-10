@@ -363,8 +363,8 @@
   .text-normal{font-weight:400;}
   .about-grid{
     display:grid;
-    grid-template-columns:.9fr 1.1fr;
-    gap:70px;
+    grid-template-columns:1fr;
+    gap:50px;
     margin-top:44px;
     align-items:start;
   }
@@ -394,10 +394,11 @@
   .about-bullets strong{color:var(--black);}
   .stat-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:1px;
     background:var(--gray-200);
     border:1px solid var(--gray-200);
+    width:100%;
   }
   .stat{
     background:var(--white);
@@ -418,46 +419,72 @@
     color:var(--gray-600);
   }
 
-  /* ============ SERVICES (accordion) ============ */
-  .service-list{margin-top:50px;border-top:1px solid var(--gray-200);transition:border-color .45s var(--ease);}
-  .service-item{border-bottom:1px solid var(--gray-200);transition:border-color .45s var(--ease);}
-  .service-header{
-    display:flex;align-items:center;gap:26px;
-    width:100%;
-    padding:30px 4px;
-    cursor:pointer;
-    background:none;
-    text-align:left;
-    transition:background .35s ease;
+  /* ============ SERVICES (accordion styled as cards) ============ */
+  .service-list{margin-top:50px;display:flex;flex-direction:column;gap:20px;}
+  .service-item{
+    border:1px solid var(--gray-200);
+    border-radius:18px;
+    overflow:hidden;
+    background:var(--white);
+    transition:background-color .45s var(--ease), border-color .45s var(--ease), box-shadow .3s var(--ease), transform .3s var(--ease);
   }
-  .service-header:hover{background:var(--gray-100);}
-  .service-index{
+  .service-item:hover{
+    box-shadow:0 16px 34px -20px rgba(0,0,0,.35);
+    transform:translateY(-2px);
+  }
+  .service-header{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:14px;
+    padding:18px clamp(18px,3vw,28px);
+    background:var(--black);
+    color:var(--white);
+    cursor:pointer;
+    user-select:none;
+    transition:background-color .35s ease;
+    width:100%;
+    border:none;
+    text-align:left;
+  }
+  .service-header:hover{
+    background-color:#1c1c1c;
+  }
+  body.dark-mode .service-header{
+    --black:#0a0a0a;
+    --white:#f5f5f5;
+  }
+  .service-header .service-index{
     font-family:var(--font-mono);
     font-size:.82rem;
-    color:var(--gray-400);
-    width:34px;flex-shrink:0;
+    color:rgba(255,255,255,.45);
+    width:26px;flex-shrink:0;
   }
-  .service-title{
+  .service-header .service-title{
     font-family:var(--font-display);
     font-weight:800;
-    font-size:clamp(1.15rem,2.4vw,1.5rem);
+    font-size:1rem;
+    letter-spacing:.01em;
     flex:1;
+    color:var(--white);
   }
-  .service-icon{
-    width:36px;height:36px;flex-shrink:0;
-    border-radius:50%;
-    border:1px solid var(--gray-200);
+  .service-header .service-icon{
+    width:28px;height:28px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.3);
     display:flex;align-items:center;justify-content:center;
-    transition:background .4s var(--ease), border-color .4s var(--ease);
+    flex-shrink:0;
+    transition:background-color .3s ease, border-color .3s ease, transform .3s ease;
   }
-  .service-icon svg{
-    width:13px;height:13px;
-    transition:transform .5s var(--ease);
+  .service-header:hover .service-icon{
+    border-color:rgba(255,255,255,.75);
+    transform:scale(1.08);
   }
-  .service-icon svg path{stroke:var(--black);transition:stroke .4s ease;}
-  .service-item.open .service-icon{background:var(--black);border-color:var(--black);}
-  .service-item.open .service-icon svg{transform:rotate(180deg);}
-  .service-item.open .service-icon svg path{stroke:var(--white);}
+  .service-header .service-icon svg{
+    width:12px;height:12px;
+    stroke:#fff;fill:none;stroke-width:1.8;
+    transition:transform .35s var(--ease);
+  }
+  .service-item.open .service-header{background-color:#1c1c1c;}
+  .service-item.open .service-icon{background:#fff;border-color:#fff;}
+  .service-item.open .service-icon svg{stroke:#000;transform:rotate(180deg);}
 
   .service-panel{
     display:grid;
@@ -468,7 +495,7 @@
   .service-panel-inner{overflow:hidden;}
   .service-content{
     padding:0 4px 34px 60px;
-    max-width:560px;
+    max-width:100%;
   }
   .service-bullets{list-style:none;}
   .service-bullets li{
@@ -478,6 +505,7 @@
     color:var(--gray-600);
     line-height:1.7;
     margin-bottom:8px;
+    white-space:nowrap;
   }
   .service-bullets li::before{
     content:'';
@@ -817,7 +845,8 @@
     .hero-desc{margin-inline:auto;}
     .hero-cta{justify-content:center;}
     .about-grid{grid-template-columns:1fr;gap:36px;}
-    .service-header{padding:24px 0;gap:16px;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .service-header{padding:16px clamp(16px,3vw,24px);gap:12px;}
     .service-content{padding-left:44px;}
     .pf-slide.active{grid-template-columns:1fr;}
     .pf-slide-media{order:-1;}
@@ -834,7 +863,7 @@
   }
 
   @media (max-width:420px){
-    .stat-grid{grid-template-columns:1fr;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
     .about-bullets li{font-size:.96rem;}
   }
 
@@ -871,7 +900,7 @@
 
   <div class="contact-wrap" id="contactWrap">
     <button class="btn-black" id="contactBtn">
-      Contact Me
+      Follow Me
       <svg viewBox="0 0 12 8" fill="none"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
     <div class="contact-dropdown">
@@ -925,7 +954,7 @@
 <!-- ============ ABOUT ============ -->
 <section id="about">
   <div class="eyebrow">About Me</div>
-  <h2 class="section-title">Good decisions start<br>with data you can trust.</h2>
+  <h2 class="section-title">Good decisions start with data you can trust.</h2>
   <div class="about-grid">
     <div class="about-text">
       <p>I'm <span class="text-normal">Rethoy Islam</span>, an <span class="text-normal">AI-Powered Google Marketer</span>. Every business already has the data it needs to grow — the challenge is turning it into action. That's the gap I fill.<br>Here's how I help:</p>
@@ -950,7 +979,7 @@
 <!-- ============ SERVICES ============ -->
 <section id="services">
   <div class="eyebrow">Services</div>
-  <h2 class="section-title">What I can do for<br>your business.</h2>
+  <h2 class="section-title">What I can do for your business.</h2>
   <div class="service-list">
 
     <div class="service-item" data-service>
