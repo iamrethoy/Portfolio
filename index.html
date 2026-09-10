@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rethoy Islam — Ads & Tracking Specialist</title>
+<title>RETHOY ISLAM — AI-Powered Google Marketer</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%230a0a0a'/%3E%3Ctext x='32' y='32' text-anchor='middle' dominant-baseline='central' font-family='Archivo, Arial, sans-serif' font-weight='900' font-size='24' fill='%23ffffff'%3ERI%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +28,6 @@
   }
 
   /* ============ DARK MODE ============ */
-  /* Flips the whole palette when <body> gets the .dark-mode class. */
   body.dark-mode{
     --white:#0a0a0a;
     --black:#f5f5f5;
@@ -38,8 +37,6 @@
     --gray-600:#a8a8a8;
     --gray-800:#e6e6e6;
   }
-  /* Contact CTA band is an intentionally always-dark surface — relock its
-     local vars so badge/border text stays legible in dark mode. */
 
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -225,7 +222,8 @@
   .nav-toggle span:nth-child(3){top:16px;}
 
   /* ============ SECTIONS SHARED ============ */
-  section{padding:150px clamp(20px,5vw,56px) 90px;}
+  section{padding:150px clamp(20px,5vw,56px) 90px clamp(20px,5vw,50px);}
+  #home{padding-right:clamp(20px,4vw,40px);}
   .eyebrow{
     font-family:var(--font-mono);
     font-size:.72rem;
@@ -253,8 +251,8 @@
   .hero-grid{
     width:100%;
     display:grid;
-    grid-template-columns:1.1fr auto;
-    gap:60px;
+    grid-template-columns:0.75fr 1.3fr;
+    gap:20px;
     align-items:center;
   }
   .hero-status{
@@ -266,9 +264,11 @@
     font-size:clamp(3rem,7.5vw,6.2rem);
     line-height:.98;
     letter-spacing:-.02em;
+    white-space:nowrap;
+    max-width:100%;
   }
   h1.hero-title .rule{
-    display:block;
+    display:inline;
     color:var(--black);
   }
   .hero-role{
@@ -311,10 +311,10 @@
   /* portrait */
   .portrait-wrap{
     position:relative;
-    width:min(400px,40vw);
+    width:min(420px,95%);
     aspect-ratio:1/1;
     display:flex;align-items:center;justify-content:center;
-    justify-self:center;
+    margin-left:auto;
   }
   .ring-rotate{
     position:absolute;inset:0;
@@ -322,9 +322,6 @@
     background:var(--black);
     box-shadow:0 30px 70px -25px rgba(0,0,0,.4);
   }
-  /* Static inner slot.
-     Drop a real photo in here (see the HTML comment near .portrait-photo)
-     and it will auto-crop to fill this circle perfectly. */
   .portrait-photo{
     position:absolute;
     inset:4%;
@@ -462,7 +459,6 @@
   .service-item.open .service-icon svg{transform:rotate(180deg);}
   .service-item.open .service-icon svg path{stroke:var(--white);}
 
-  /* Smooth height reveal via grid-template-rows 0fr -> 1fr (no JS height math, no jank) */
   .service-panel{
     display:grid;
     grid-template-rows:0fr;
@@ -542,8 +538,6 @@
   .pf-cat-header:hover{
     background-color:#1c1c1c;
   }
-  /* Always-dark surface: portfolio headers stay black-bg/white-text even
-     when the site is switched to dark mode (where --black/--white flip). */
   body.dark-mode .pf-cat-header{
     --black:#0a0a0a;
     --white:#f5f5f5;
@@ -817,9 +811,9 @@
     nav.main-nav.open{transform:translateY(0);}
     nav.main-nav a{padding:14px 26px;width:100%;}
     .nav-toggle{display:block;}
-    .hero-grid{grid-template-columns:1fr;text-align:center;}
+    .hero-grid{grid-template-columns:1fr;text-align:center;gap:30px;padding-right:20px;}
     .hero-status{margin-inline:auto;}
-    .portrait-wrap{margin:0 auto;width:min(300px,62vw);}
+    .portrait-wrap{margin:0 auto;width:min(300px,80vw);}
     .hero-desc{margin-inline:auto;}
     .hero-cta{justify-content:center;}
     .about-grid{grid-template-columns:1fr;gap:36px;}
@@ -856,7 +850,7 @@
   <div class="loader-inner">
     <div class="loader-name"><span style="animation-delay:.1s">R</span><span style="animation-delay:.15s">E</span><span style="animation-delay:.2s">T</span><span style="animation-delay:.25s">H</span><span style="animation-delay:.3s">O</span><span style="animation-delay:.35s">Y</span><span style="animation-delay:.4s">&nbsp;</span><span style="animation-delay:.45s">I</span><span style="animation-delay:.5s">S</span><span style="animation-delay:.55s">L</span><span style="animation-delay:.6s">A</span><span style="animation-delay:.65s">M</span></div>
     <div class="loader-track"><div class="loader-bar"></div></div>
-    <div class="loader-tag">Ads &amp; Tracking Specialist</div>
+    <div class="loader-tag">AI-Powered Google Marketer</div>
   </div>
 </div>
 
@@ -909,9 +903,9 @@
         <span class="status-dot"></span>
         <span class="status-text">Available for New Project</span>
       </div>
-      <h1 class="hero-title"><span class="rule">Rethoy Islam</span></h1>
+      <h1 class="hero-title"><span class="rule">RETHOY ISLAM</span></h1>
       <div class="hero-role"><span id="typeRole"></span><span class="type-cursor">|</span></div>
-      <p class="hero-desc">I build tracking-accurate ad systems and conversion-first landing experiences — turning clicks into measurable, repeatable revenue.</p>
+      <p class="hero-desc">I build accurate tracking systems, profitable ad campaigns, and clear data dashboards so every click turns into a decision you can trust.</p>
       <div class="hero-cta">
         <a href="#portfolio" class="btn-black">View Portfolio</a>
         <a href="#contact-section" class="btn-outline">Let's Talk</a>
@@ -921,10 +915,7 @@
     <div class="portrait-wrap">
       <div class="ring-rotate"></div>
       <div class="portrait-photo">
-        <!-- To use your own photo: replace the line below with
-             <img src="your-photo.jpg" alt="Rethoy Islam">
-             It will automatically crop and fill this circle. -->
-        <img src="rethoy_islam_profile_pic.jpg" alt="Rethoy Islam">
+        <img src="rethoy_islam_profile_pic.jpg" alt="RETHOY ISLAM">
         <div class="portrait-dot"></div>
       </div>
     </div>
@@ -934,20 +925,23 @@
 <!-- ============ ABOUT ============ -->
 <section id="about">
   <div class="eyebrow">About Me</div>
-  <h2 class="section-title">Behind every scaled<br>campaign is clean data.</h2>
+  <h2 class="section-title">Good decisions start<br>with data you can trust.</h2>
   <div class="about-grid">
     <div class="about-text">
+      <p>I'm <span class="text-normal">Rethoy Islam</span>, an <span class="text-normal">AI-Powered Google Marketer</span>. Every business already has the data it needs to grow — the challenge is turning it into action. That's the gap I fill.<br>Here's how I help:</p>
       <ul class="about-bullets">
-        <li>I'm <span class="text-normal">Rethoy Islam</span>, a performance marketer who lives at the intersection of <span class="text-normal">ad strategy</span> and <span class="text-normal">tracking infrastructure</span>.</li>
-        <li>Most accounts don't fail from bad creative — they fail from broken pixels, mis-attributed conversions, and funnels nobody audited.</li>
-        <li>I fix that. Every project starts with a full tracking audit.</li>
-        <li>Then it moves into campaign structure, landing page optimization, and a reporting layer you can actually trust.</li>
+        <li><strong>Website Tracking</strong> — Know exactly what customers do on your site</li>
+        <li><strong>Google Ads Management</strong> — Profitable campaigns that bring the right customers</li>
+        <li><strong>E-commerce Products</strong> — Get your products live on Google Shopping</li>
+        <li><strong>GA4 Analytics</strong> — Clean setup, reports that actually matter</li>
+        <li><strong>Data Dashboards</strong> — Visual reports in Looker Studio that tell your business story</li>
       </ul>
+      <p>I don't just set things up and walk away. I build systems that help you make smarter decisions and get more from your marketing budget.<br>Ready to make your marketing more data-driven? Let's talk.</p>
     </div>
     <div class="stat-grid">
-      <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Accounts Managed</div></div>
       <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Years Experience</div></div>
-      <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Tracking Accuracy</div></div>
+      <div class="stat"><div class="stat-num">&lt; 24h</div><div class="stat-label">Response Time</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Tracking Accuracy</div></div>
       <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Satisfaction</div></div>
     </div>
   </div>
@@ -1082,13 +1076,10 @@
 <section id="portfolio">
   <div class="eyebrow">Portfolio</div>
   <h2 class="section-title">Selected work.</h2>
-
-  <!-- Categories are rendered here by JS from the portfolioData array below.
-       To add your images later, just edit portfolioData — no HTML editing needed. -->
   <div class="portfolio-categories" id="portfolioCategories"></div>
 </section>
 
-<!-- Lightbox (zoomed image viewer) -->
+<!-- Lightbox -->
 <div class="pf-lightbox" id="pfLightbox">
   <button class="pf-lightbox-close" id="pfLightboxClose" aria-label="Close">
     <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -1106,8 +1097,7 @@
 <!-- ============ CONTACT ============ -->
 <section id="contact-section">
   <div class="eyebrow" style="justify-content:center;">Get In Touch</div>
-  <h2 class="contact-cta-title">Let's build your<br>next campaign.</h2>
-  <a href="mailto:hello@rethoyislam.com" class="contact-email">hello@rethoyislam.com</a>
+  <h2 class="contact-cta-title">Let's turn your data<br>into growth.</h2>
   <div class="social-row">
     <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M15.4 12.6h-2.1V20h-3v-7.4H8.8v-2.6h1.5V8.4c0-1.9 1.1-3 3.3-3h2v2.5h-1.3c-.5 0-.9.2-.9.9v1.2h2.2l-.2 2.6z"/></svg>
@@ -1123,8 +1113,8 @@
     </a>
   </div>
   <footer>
-    <span>© 2026 Rethoy Islam</span>
-    <span>Ads &amp; Tracking Specialist</span>
+    <span>© 2026 RETHOY ISLAM</span>
+    <span>AI-Powered Google Marketer</span>
   </footer>
 </section>
 
@@ -1141,31 +1131,29 @@
 </div>
 
 <script>
-  // ---- Loader (every reload) ----
+  // ---- Loader ----
   window.addEventListener('load', () => {
     const nameEl = document.querySelector('.loader-name');
     const track = document.querySelector('.loader-track');
-    // Match the progress bar's width exactly to the rendered name width
     track.style.width = nameEl.getBoundingClientRect().width + 'px';
-
-    // Standard comfortable reading time for "RETHOY ISLAM" before revealing the site
     setTimeout(() => {
       document.getElementById('loader').classList.add('done');
     }, 2600);
   });
 
-  // ---- Dark / light mode toggle (click the RI logo) ----
+  // ---- Dark / light mode toggle ----
+  // First-time visitors see WHITE/LIGHT mode by default
+  // Returning visitors see their saved preference
   (function(){
     const body = document.body;
     const toggleBtn = document.getElementById('themeToggle');
     const STORAGE_KEY = 'ri-theme';
-
-    // Apply saved preference only — new visitors always start on the white/light version
     const saved = localStorage.getItem(STORAGE_KEY);
+    // Only apply dark mode if user previously saved it
     if(saved === 'dark'){
       body.classList.add('dark-mode');
     }
-
+    // If no saved preference, light mode is default (no class added)
     toggleBtn.addEventListener('click', () => {
       const isDark = body.classList.toggle('dark-mode');
       localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
@@ -1178,11 +1166,11 @@
   navToggle.addEventListener('click', () => mainNav.classList.toggle('open'));
   mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mainNav.classList.remove('open')));
 
-  // ---- Hero role: continuous keyboard-typing loop ----
+  // ---- Hero role: typing animation ----
   (function(){
     const el = document.getElementById('typeRole');
     if(!el) return;
-    const text = 'ADS & TRACKING SPECIALIST';
+    const text = 'AI-POWERED GOOGLE MARKETER';
     let i = 0;
     let deleting = false;
 
@@ -1192,7 +1180,7 @@
         el.textContent = text.slice(0, i);
         if(i === text.length){
           deleting = true;
-          setTimeout(tick, 1600); // pause while fully typed
+          setTimeout(tick, 1600);
           return;
         }
         setTimeout(tick, 90);
@@ -1201,7 +1189,7 @@
         el.textContent = text.slice(0, i);
         if(i === 0){
           deleting = false;
-          setTimeout(tick, 500); // pause while empty, then retype
+          setTimeout(tick, 500);
           return;
         }
         setTimeout(tick, 45);
@@ -1221,12 +1209,11 @@
     if(!contactWrap.contains(e.target)) contactWrap.classList.remove('open');
   });
 
-  // ---- Services accordion (smooth grid-rows animation, no jank) ----
+  // ---- Services accordion ----
   document.querySelectorAll('[data-service]').forEach(item => {
     const header = item.querySelector('.service-header');
     header.addEventListener('click', () => {
       const wasOpen = item.classList.contains('open');
-      // close the others for a clean single-open accordion feel
       document.querySelectorAll('[data-service]').forEach(i => i.classList.remove('open'));
       if (!wasOpen) item.classList.add('open');
     });
@@ -1241,24 +1228,7 @@
     });
   });
 
-  /* ==========================================================================
-     PORTFOLIO — category carousels
-     ==========================================================================
-     HOW TO ADD YOUR IMAGES (image pore bosaben eivabe):
-     Niche "portfolioData" array-e protita item-er `images: []` array-e
-     tomar image-er path/URL bosao. Jemon:
-
-        images: ['images/ga4-1.png', 'images/ga4-2.png', 'images/ga4-3.png']
-
-     - 0 images dile: gray placeholder box dekhabe ("Image coming soon").
-     - 1 image dile: shudhu oi image ta dekhabe, click korle zoom/lightbox e khulbe.
-     - 2+ images dile: proti 2.2 second por por image gulo automatic change
-       hote thakbe, r click korle lightbox khule click-through kore next
-       image-e jawa jabe. Lightbox বন্ধ করলে (X বা বাইরে click) আগের মতো ফিরে আসবে.
-
-     Category/step er naam, description shob e neeche edit kora jabe.
-     ========================================================================== */
-
+  // ---- Portfolio data ----
   const portfolioData = [
     {
       title: 'Website Tracking',
@@ -1370,14 +1340,13 @@
     if(e.key === 'ArrowLeft') lb.prev();
   });
 
-  // ---- Build each category carousel (accordion — one open at a time) ----
+  // ---- Build portfolio ----
   function buildPortfolio(){
     const root = document.getElementById('portfolioCategories');
     const controllers = [];
 
     portfolioData.forEach((cat, catIdx) => {
       const state = { current: 0, imgIndex: 0, timer: null };
-
       const catEl = document.createElement('div');
       catEl.className = 'pf-category';
 
@@ -1525,8 +1494,6 @@
       renderSlide();
       controllers.push({ el: catEl, open: openCategory, close: closeCategory });
     });
-
-    // All portfolio sections start closed — user opens whichever they want manually.
   }
 
   buildPortfolio();
