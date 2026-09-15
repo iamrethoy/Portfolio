@@ -740,6 +740,134 @@
     color:rgba(255,255,255,.7);
   }
 
+  /* ============ CONTACT FORM ============ */
+  .form-wrap-section{
+    padding:70px clamp(20px,5vw,56px);
+    background:var(--gray-100);
+    transition:background-color .45s var(--ease);
+  }
+  .form-wrap-section .eyebrow{margin-bottom:14px;}
+  .form-card{
+    max-width:680px;
+    margin:0 auto;
+    text-align:left;
+    border:1px solid var(--gray-200);
+    border-radius:20px;
+    padding:clamp(22px,4vw,38px);
+    background:var(--white);
+    transition:background-color .45s var(--ease), border-color .45s var(--ease);
+  }
+  #contact-section .form-card{margin-top:36px;}
+  .form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .form-field{
+    display:flex;flex-direction:column;gap:7px;
+    margin-bottom:16px;
+  }
+  .form-field label{
+    font-family:var(--font-mono);
+    font-size:.68rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--black);
+    font-weight:700;
+  }
+  .form-field input[type="text"],
+  .form-field input[type="email"],
+  .form-field select,
+  .form-field textarea{
+    border:1px solid var(--gray-200);
+    border-radius:10px;
+    padding:12px 14px;
+    font-family:var(--font-body);
+    font-size:.94rem;
+    background:var(--white);
+    color:var(--black);
+    width:100%;
+    transition:border-color .2s ease;
+  }
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus{
+    outline:none;
+    border-color:var(--black);
+  }
+  .form-field select{font-weight:400;}
+  .form-field select:invalid{color:var(--gray-400);}
+  .form-field textarea{resize:vertical;min-height:96px;}
+  .multiselect{position:relative;}
+  .multiselect-trigger{
+    width:100%;
+    display:flex;align-items:center;justify-content:space-between;
+    border:1px solid var(--gray-200);
+    border-radius:10px;
+    padding:12px 14px;
+    font-family:var(--font-body);
+    font-size:.94rem;
+    background:var(--white);
+    color:var(--gray-400);
+    text-align:left;
+    transition:border-color .2s ease;
+  }
+  .multiselect-trigger.has-value{color:var(--black);}
+  .multiselect.open .multiselect-trigger{border-color:var(--black);}
+  .multiselect-trigger svg{width:11px;height:11px;flex-shrink:0;margin-left:10px;color:var(--gray-400);transition:transform .25s var(--ease);}
+  .multiselect.open .multiselect-trigger svg{transform:rotate(180deg);}
+  .multiselect-panel{
+    position:absolute;top:calc(100% + 8px);left:0;right:0;
+    background:var(--white);
+    border:1px solid var(--gray-200);
+    border-radius:12px;
+    padding:8px;
+    z-index:20;
+    opacity:0;visibility:hidden;
+    transform:translateY(-8px);
+    transition:opacity .2s ease, transform .2s ease, visibility .2s;
+    box-shadow:0 20px 40px -20px rgba(0,0,0,.3);
+  }
+  .multiselect.open .multiselect-panel{opacity:1;visibility:visible;transform:translateY(0);}
+  .multiselect-option{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 10px;
+    border-radius:8px;
+    font-size:.9rem;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .multiselect-option:hover{background:var(--gray-100);}
+  .multiselect-option input{width:16px;height:16px;accent-color:var(--black);cursor:pointer;flex-shrink:0;}
+  .form-submit-btn{
+    margin-top:6px;
+    background:var(--black);
+    color:var(--white);
+    padding:13px 30px;
+    font-size:.9rem;font-weight:600;
+    border-radius:999px;
+    transition:opacity .25s ease;
+  }
+  .form-submit-btn:hover{opacity:.85;}
+  .form-success{
+    display:none;
+    text-align:center;
+    padding:30px 10px;
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:1.2rem;
+  }
+  .form-success p{
+    margin-top:10px;
+    font-family:var(--font-body);
+    font-weight:400;
+    font-size:.95rem;
+    color:var(--gray-600);
+  }
+  @media (max-width:640px){
+    .form-row{grid-template-columns:1fr;}
+  }
+
   /* ============ CONTACT / FOOTER ============ */
   #contact-section{
     background:var(--white);
@@ -1156,6 +1284,64 @@
 <section id="contact-section">
   <div class="eyebrow" style="justify-content:center;">Get In Touch</div>
   <h2 class="contact-cta-title">Let's turn your data<br>into growth.</h2>
+
+  <form class="form-card" id="contactForm" action="https://formspree.io/f/xjyvndpb" method="POST" novalidate>
+    <div class="form-row">
+      <div class="form-field">
+        <label for="contactName">Name</label>
+        <input type="text" id="contactName" name="name" required placeholder="Your full name">
+      </div>
+      <div class="form-field">
+        <label for="contactEmail">Email</label>
+        <input type="email" id="contactEmail" name="email" required placeholder="you@company.com">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label for="contactCountry">Country</label>
+        <input type="text" id="contactCountry" name="country" list="countryListB" required placeholder="Search your country">
+        <datalist id="countryListB"></datalist>
+      </div>
+      <div class="form-field">
+        <label for="contactBusinessType">Business Type</label>
+        <select id="contactBusinessType" name="businessType" required>
+          <option value="" disabled selected hidden>Select business type</option>
+          <option>E-commerce</option>
+          <option>Lead Generation</option>
+          <option>SaaS</option>
+          <option>Local Business</option>
+          <option>Agency</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Service</label>
+      <div class="multiselect" data-multiselect>
+        <button type="button" class="multiselect-trigger" data-multiselect-trigger>
+          <span data-multiselect-label>Select service(s)</span>
+          <svg viewBox="0 0 12 8" fill="none"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+        <div class="multiselect-panel" data-multiselect-panel>
+          <label class="multiselect-option"><input type="checkbox" value="Website Tracking"><span>Website Tracking</span></label>
+          <label class="multiselect-option"><input type="checkbox" value="Google Ads Management"><span>Google Ads Management</span></label>
+          <label class="multiselect-option"><input type="checkbox" value="Google Merchant Center"><span>Google Merchant Center</span></label>
+          <label class="multiselect-option"><input type="checkbox" value="Data Analysis"><span>Data Analysis</span></label>
+          <label class="multiselect-option"><input type="checkbox" value="Data Visualization"><span>Data Visualization</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="form-field">
+      <label for="contactMessage">Message</label>
+      <textarea id="contactMessage" name="message" required placeholder="Tell me a bit about your project..."></textarea>
+    </div>
+    <button type="submit" class="form-submit-btn">Send Message</button>
+  </form>
+  <div class="form-success" id="contactFormSuccess" style="max-width:680px;margin:0 auto;">
+    Thanks, Rethoy will get back to you soon!
+    <p>Your message has been noted.</p>
+  </div>
+
   <div class="social-row">
     <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M15.4 12.6h-2.1V20h-3v-7.4H8.8v-2.6h1.5V8.4c0-1.9 1.1-3 3.3-3h2v2.5h-1.3c-.5 0-.9.2-.9.9v1.2h2.2l-.2 2.6z"/></svg>
@@ -1391,9 +1577,26 @@
       title: 'Data Visualization',
       type: 'process',
       items: [
-        { name: 'Data Source Connect', desc: 'Connecting GA4, Google Ads, Meta and Sheets as live data sources.', images: [] },
-        { name: 'Looker Studio Dashboard Build', desc: 'Building an interactive, live Looker Studio dashboard on top of the connected sources.', images: [] },
-        { name: 'Final Dashboard', desc: 'A polished, client-ready dashboard delivered with clear KPIs at a glance.', images: [] }
+        { name: 'Normal Dashboard', desc: 'A general-purpose Looker Studio dashboard giving an overview of key performance metrics at a glance.', images: [
+          'https://raw.githubusercontent.com/iamrethoy/Portfolio/main/glc_01.jpg',
+          'https://raw.githubusercontent.com/iamrethoy/Portfolio/main/glc_02.jpg'
+        ] },
+        { name: 'Meta Dashboard', desc: 'A dedicated dashboard tracking Meta (Facebook & Instagram) ad performance and campaign metrics.', images: [
+          'https://raw.githubusercontent.com/iamrethoy/Portfolio/main/glc_meta_ads_01.jpg'
+        ] },
+        { name: 'Google Dashboard', desc: 'A dedicated dashboard tracking Google Ads performance, spend and conversion metrics.', images: [
+          'https://raw.githubusercontent.com/iamrethoy/Portfolio/main/glc_google_ads_01.jpg'
+        ] },
+        { name: 'Instagram Dashboard', desc: 'A dedicated dashboard tracking Instagram ad performance and engagement metrics.', images: [
+          'https://raw.githubusercontent.com/iamrethoy/Portfolio/main/glc_igads_01.jpg'
+        ] },
+        { name: 'Google Search Console Dashboard', desc: 'A dashboard built on Google Search Console data to track organic search performance and keyword visibility.', images: [
+          'https://raw.githubusercontent.com/iamrethoy/Portfolio/main/glc_search_console_01.jpg'
+        ] },
+        { name: 'Blended Data Dashboard', desc: 'A blended data source dashboard combining multiple platforms into a single, unified view of performance.', images: [
+          'https://raw.githubusercontent.com/iamrethoy/Portfolio/main/glc_blended_data_01.jpg',
+          'https://raw.githubusercontent.com/iamrethoy/Portfolio/main/glc_blended_data_02.jpg'
+        ] }
       ]
     }
   ];
@@ -1606,6 +1809,86 @@
   }
 
   buildPortfolio();
+
+  // ---- Contact form ----
+  (function(){
+    const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Chad","Chile","China","Colombia","Congo","Costa Rica","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominican Republic","Ecuador","Egypt","El Salvador","Estonia","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Guatemala","Guinea","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Liberia","Libya","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saudi Arabia","Senegal","Serbia","Sierra Leone","Singapore","Slovakia","Slovenia","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];
+
+    const listB = document.getElementById('countryListB');
+    if(listB) listB.innerHTML = countries.map(c => `<option value="${c}"></option>`).join('');
+
+    const form = document.getElementById('contactForm');
+    if(form){
+      const success = document.getElementById('contactFormSuccess');
+
+      // Service multiselect dropdown
+      const multiselect = form.querySelector('[data-multiselect]');
+      const trigger = form.querySelector('[data-multiselect-trigger]');
+      const panel = form.querySelector('[data-multiselect-panel]');
+      const labelEl = form.querySelector('[data-multiselect-label]');
+      const checkboxes = panel.querySelectorAll('input[type="checkbox"]');
+
+      function updateMultiselectLabel(){
+        const selected = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+        if(selected.length === 0){
+          labelEl.textContent = 'Select service(s)';
+          trigger.classList.remove('has-value');
+        } else {
+          labelEl.textContent = selected.join(', ');
+          trigger.classList.add('has-value');
+        }
+      }
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        multiselect.classList.toggle('open');
+      });
+      document.addEventListener('click', (e) => {
+        if(!multiselect.contains(e.target)) multiselect.classList.remove('open');
+      });
+      checkboxes.forEach(cb => cb.addEventListener('change', updateMultiselectLabel));
+
+      // Submit via Formspree (AJAX so the page doesn't reload)
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if(!form.checkValidity()){
+          form.reportValidity();
+          return;
+        }
+        const anyServiceChecked = Array.from(checkboxes).some(cb => cb.checked);
+        if(!anyServiceChecked){
+          alert('Please select at least one service.');
+          return;
+        }
+        const formData = new FormData(form);
+        formData.delete('services');
+        checkboxes.forEach(cb => { if(cb.checked) formData.append('services', cb.value); });
+
+        const submitBtn = form.querySelector('.form-submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+
+        fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        }).then(response => {
+          if(response.ok){
+            form.style.display = 'none';
+            if(success) success.style.display = 'block';
+          } else {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message';
+            alert('Something went wrong sending your message. Please try again or reach out directly.');
+          }
+        }).catch(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send Message';
+          alert('Something went wrong sending your message. Please try again or reach out directly.');
+        });
+      });
+    }
+  })();
 </script>
 
 </body>
